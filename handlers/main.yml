@@ -1,0 +1,6 @@
+---
+# handlers file for vikiscripts.bind9
+- name: restart bind9
+  service:
+    name: bind9
+    state: restarted

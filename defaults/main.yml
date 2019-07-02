@@ -1,0 +1,6 @@
+---
+# defaults file for vikiscripts.bind9
+domain: vikilabs.local
+# Network portion of IP has to be in reverse order. Read on internet for more details.
+# 10.10.10.0/8 Subnet in this case
+rev_domain: 10.10.10.in-addr.arpa 

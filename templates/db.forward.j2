@@ -1,0 +1,19 @@
+$TTL 604800	; 1 week
+@	IN SOA	{{ ansible_fqdn }}. admin.{{ domain }}. (
+				8          ; serial
+				604800     ; refresh (1 week)
+				86400      ; retry (1 day)
+				2419200    ; expire (4 weeks)
+				604800     ; minimum (1 week)
+				)
+;
+; name servers - NS records
+     IN      NS      {{ hostvars[groups['ns1'][0]]['host_name'] }}.
+     IN      NS      {{ hostvars[groups['ns2'][0]]['host_name'] }}.
+
+; name servers - A records
+{{ hostvars[groups['ns1'][0]]['host_name'] }}.          IN      A       {{ groups['ns1'][0] }}
+{{ hostvars[groups['ns2'][0]]['host_name'] }}.          IN      A       {{ groups['ns2'][0] }}
+
+; 10.10.10.0/8 - A records
+control.ansible.local.        IN      A      10.10.10.60

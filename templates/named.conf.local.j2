@@ -1,0 +1,25 @@
+zone "{{ domain }}" IN {
+    {% if ansible_dns_role == 'master' -%}
+    type master;
+    file "/etc/bind/zones/db.{{ domain }}";
+    allow-transfer { {{ groups['ns2'][0] }}; };     # ns2 private IP address - secondary
+    {% endif -%}
+    {% if ansible_dns_role == 'slave' -%}
+    type slave;
+    file "db.{{ domain }}";
+    masters { {{ groups['ns1'][0] }}; };     # ns1 private IP address - primary master
+    {% endif -%}
+};
+
+zone "{{ rev_domain }}" IN {
+    {% if ansible_dns_role == 'master' -%}
+    type master;
+    file "/etc/bind/zones/db.{{ rev_domain }}";
+    allow-transfer { {{ groups['ns2'][0] }}; };     # ns2 private IP address - secondary
+    {% endif -%}
+    {% if ansible_dns_role == 'slave' -%}
+    type slave;
+    file "db.{{ rev_domain }}";
+    masters { {{ groups['ns1'][0] }}; };     # ns1 private IP address - primary master
+    {% endif -%}
+};
